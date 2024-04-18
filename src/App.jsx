@@ -1,6 +1,7 @@
 import './App.css';
 import { useState } from 'react';
 import styled from 'styled-components';
+import { generate } from "random-words";
 
 const ListItem = styled.li`
   list-style-type: none;
@@ -73,28 +74,28 @@ const StyledApp = styled.div`
   min-width: 550px;
 `
 
-const generateSuggestions = (n) => [...Array(n)].map((s, i) => ({ title: `suggestion ${i + 1}` }));
-const generateTags = (n) => [...Array(n)].map((s, i) => ({ title: `tag ${i + 1}` }));
-const suggestionToTag = (s) => ({ title: `tag ${s.title.split(' ')[1]}` })
+const generateSuggestions = (n) => [...Array(n)].map(() => ({
+  title: generate({ minLength: 7, maxLength: 7 })
+}));
 
 function App() {
   const [announcements, setAnnouncements] = useState([])
   const [suggestions, setSuggestions] = useState(generateSuggestions(9));
-  const [tags, setTags] = useState(generateTags(0));
+  const [tags, setTags] = useState([]);
 
   const makeAnnouncement = (a) => setAnnouncements(() => [...announcements, a])
   const removeSuggestion = (s) => setSuggestions(suggestions.filter(t => s.title !== t.title));
   const removeTag = (t) => {
-    makeAnnouncement(`${t.title} removed`)
+    makeAnnouncement(`${t.title} tag removed`)
     setTags(tags.filter(s => s.title !== t.title));
   }
   const acceptSuggestion = (s) => {
-    makeAnnouncement(`${s.title} accepted`)
-    setTags([...tags, suggestionToTag(s)])
+    makeAnnouncement(`${s.title} suggestion accepted`)
+    setTags([...tags, s])
     removeSuggestion(s)
   }
   const declineSuggeston = (s) => {
-    makeAnnouncement(`${s.title} declined`)
+    makeAnnouncement(`${s.title} suggestion declined`)
     removeSuggestion(s)
   }
 
