@@ -12,7 +12,7 @@ const ListItem = styled.li`
 const List = styled.ol`
   border: 2px solid grey;
   padding: 15px;
-  min-height: 450px;
+  min-height: 500px;
   min-width: 200px;
 `;
 
@@ -40,6 +40,7 @@ const Suggestion = ({ suggestion, acceptSuggestion, declineSuggestion }) => (
 );
 const SuggestionsList = ({ suggestions, acceptSuggestion, declineSuggestion, setAnnouncement }) => (
   <List aria-label={`${suggestions.length} suggestions available`}>
+    <h3>suggestions</h3>
     {suggestions.map(s =>
       <Suggestion
         suggestion={s}
@@ -59,6 +60,7 @@ const Tag = ({ tag, removeTag }) => (
 );
 const TagsList = ({ tags, removeTag }) => (
   <List>
+    <h3>tags</h3>
     {tags.map(t => <Tag tag={t} removeTag={removeTag} key={t.title}/>)}
   </List>
 );
